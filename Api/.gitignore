@@ -454,9 +454,8 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-
-
-
+#.env
+.env
 
 # App Settings (MongoDB config info -- includes my username and password)
 appsettings.*
