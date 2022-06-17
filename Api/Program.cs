@@ -10,6 +10,9 @@ builder.Services.AddSingleton<PostsService>();
 builder.Services.AddSingleton<CommentsService>();
 builder.Services.AddSingleton<MessagesService>();
 builder.Services.AddControllers();
+builder.Services.AddCors( o => {
+  o.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,6 +27,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
