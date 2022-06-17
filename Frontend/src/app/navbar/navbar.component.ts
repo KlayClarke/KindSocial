@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -7,20 +6,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  currentRoute: string | undefined;
-  constructor(private router: Router) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.currentRoute = this.router.url.includes('explore')
-      ? 'explore'
-      : this.router.url.includes('messages')
-      ? 'messages'
-      : this.router.url.includes('settings')
-      ? 'settings'
-      : 'home';
-    console.log(this.currentRoute);
-  }
+  ngOnInit(): void {}
 }
-
-//TODO: highlight link of current route in navbar
-//TODO: change current route variable when route changes

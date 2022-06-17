@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,6 +13,8 @@ import { PostsComponent } from './posts/posts.component';
 import { ExploreComponent } from './explore/explore.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SettingsComponent } from './settings/settings.component';
+import { LoginComponent } from './login/login.component';
+import { JoinComponent } from './join/join.component';
 
 @NgModule({
   declarations: [
@@ -19,14 +24,21 @@ import { SettingsComponent } from './settings/settings.component';
     ExploreComponent,
     MessagesComponent,
     SettingsComponent,
+    LoginComponent,
+    JoinComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: PostsComponent },
       { path: 'explore', component: ExploreComponent },
+      { path: 'join', component: JoinComponent },
+      { path: 'login', component: LoginComponent },
       { path: 'messages', component: MessagesComponent },
       { path: 'settings', component: SettingsComponent },
     ]),
