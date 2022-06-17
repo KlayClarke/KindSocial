@@ -1,6 +1,14 @@
 using Api.Models;
 using Api.Services;
 
+
+// DotEnv config
+var root = Directory.GetCurrentDirectory();
+var dotenv = Path.Combine(root, ".env");
+DotEnv.Load(dotenv);
+
+var config = new ConfigurationBuilder().AddEnvironmentVariables().Build();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
