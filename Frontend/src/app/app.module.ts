@@ -15,6 +15,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { JoinComponent } from './join/join.component';
+import { AuthenticationGuardGuard } from './authentication-guard.guard';
 
 @NgModule({
   declarations: [
@@ -38,9 +39,20 @@ import { JoinComponent } from './join/join.component';
       { path: '', component: PostsComponent },
       { path: 'explore', component: ExploreComponent },
       { path: 'join', component: JoinComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'messages', component: MessagesComponent },
-      { path: 'settings', component: SettingsComponent },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'messages',
+        component: MessagesComponent,
+        canActivate: [AuthenticationGuardGuard],
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        canActivate: [AuthenticationGuardGuard],
+      },
     ]),
   ],
   providers: [],
