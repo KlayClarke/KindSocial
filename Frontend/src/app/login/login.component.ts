@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { UserLoginForm } from 'models/userLoginForm';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,11 @@ import { environment } from 'src/environments/environment';
 export class LoginComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -25,15 +30,13 @@ export class LoginComponent implements OnInit {
   }
 
   clearForm() {
-    this.form = this.fb.group({
-      email: '',
-      password: '',
-    });
+    this.ngOnInit();
   }
 
   async submitHandler() {
     const formValue: UserLoginForm = this.form.value;
     console.warn(formValue);
+    this.authService.login(formValue.email, formValue.password);
     this.clearForm();
   }
 }
