@@ -61,8 +61,6 @@
 
 <hr />
 
-<pre>{{ closeResult }}</pre>
-
 <div class="text-center" *ngIf="loading">
   <div class="spinner-grow text-primary me-3" role="status"></div>
   <div class="spinner-grow text-secondary me-3" role="status"></div>
@@ -76,16 +74,35 @@
 
 <div *ngIf="!loading">
   <div class="card mb-4" *ngFor="let post of posts.reverse()">
-    <div class="card-header">
-      <p>{{ getAuthor(post) }}</p>
-      <p>{{ momentTimestamp(post.dateCreated) }}</p>
+    <div class="card-header d-flex justify-content-between">
+      <p>
+        <strong>{{ getPostAuthor(post) }}</strong>
+      </p>
+      <p>
+        {{ momentTimestamp(post.dateCreated) }}
+      </p>
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ post.title }}</h5>
       <p class="card-text">
         {{ post.body }}
       </p>
-      <a href="#" class="btn btn-primary">Comment</a>
+      <a href="#" class="btn btn-outline-primary">Comment</a>
     </div>
+    <ul *ngIf="getComments(post).length" class="list-group list-group-flush">
+      <li *ngFor="let comment of getComments(post)" class="list-group-item">
+        <div>
+          <p>
+            {{ comment.body }}
+          </p>
+          <p>
+            <strong>
+              {{ momentTimestamp(comment.dateCreated) }} by
+              {{ getCommentAuthor(comment) }}
+            </strong>
+          </p>
+        </div>
+      </li>
+    </ul>
   </div>
 </div>

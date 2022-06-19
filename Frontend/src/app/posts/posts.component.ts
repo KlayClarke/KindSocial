@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Post } from 'models/Post';
 import { environment } from 'src/environments/environment';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as moment from 'moment';
 import { PostCreationForm } from 'models/PostCreationForm';
 import { User } from 'models/User';
+import { Comment } from 'models/Comment';
 
 @Component({
   selector: 'app-posts',
@@ -16,8 +17,9 @@ import { User } from 'models/User';
 })
 export class PostsComponent implements OnInit {
   form!: FormGroup;
-  posts!: Post[];
   users!: User[];
+  posts!: Post[];
+  comments!: Comment[];
   closeResult = '';
   loading: boolean = false;
 
@@ -54,10 +56,18 @@ export class PostsComponent implements OnInit {
         .subscribe((response) => {
           this.posts = response as Post[];
         });
+      // to get comments from mongodb and populate 'comments' array
+      this.http
+        .get(environment.apiEndpoint + '/Comments')
+        .subscribe((response) => {
+          this.comments = response as Comment[];
+        });
+      // show loading spinner animation for 1 second after fetching successfully ends
       setTimeout(() => {
         this.loading = false;
       }, 1000);
     } catch (error) {
+      // if error, console warn error
       console.warn(error);
     }
   }
@@ -80,14 +90,38 @@ export class PostsComponent implements OnInit {
 
   // helper method to get post author
 
-  getAuthor(post: Post) {
+  getPostAuthor(post: Post): string {
     let authorDisplayName;
     for (let user of this.users) {
       if (user.id === post.authorId) {
         authorDisplayName = user.displayName;
       }
     }
-    return authorDisplayName;
+    return authorDisplayName as string;
+  }
+
+  // helper method to get post comments
+
+  getComments(post: Post): Comment[] {
+    let comments = [];
+    for (let comment of this.comments) {
+      if (comment.postId === post.id) {
+        comments.push(comment);
+      }
+    }
+    return comments as Comment[];
+  }
+
+  // helper method to get comment author
+
+  getCommentAuthor(comment: Comment): string {
+    let authorDisplayName;
+    for (let user of this.users) {
+      if (user.id === comment.authorId) {
+        authorDisplayName = user.displayName;
+      }
+    }
+    return authorDisplayName as string;
   }
 
   // post creation handle
@@ -111,25 +145,6 @@ export class PostsComponent implements OnInit {
   // post creation modal functionality below
 
   open(content: any) {
-    this.modalService
-      .open(content, { ariaLabelledBy: 'modal-basic-title' })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 }
