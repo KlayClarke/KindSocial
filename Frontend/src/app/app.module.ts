@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PostsComponent } from './posts/posts.component';
-import { ExploreComponent } from './explore/explore.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
@@ -22,7 +21,6 @@ import { AuthenticationGuardGuard } from './authentication-guard.guard';
     AppComponent,
     NavbarComponent,
     PostsComponent,
-    ExploreComponent,
     MessagesComponent,
     SettingsComponent,
     LoginComponent,
@@ -37,7 +35,6 @@ import { AuthenticationGuardGuard } from './authentication-guard.guard';
     HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: PostsComponent },
-      { path: 'explore', component: ExploreComponent },
       { path: 'join', component: JoinComponent },
       {
         path: 'login',
