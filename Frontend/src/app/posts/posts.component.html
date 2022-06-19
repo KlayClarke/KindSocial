@@ -1,1 +1,13 @@
-<p>posts works!</p>
+<h1>Posts</h1>
+<div>
+  <div class="card" *ngFor="let post of posts">
+    <div class="card-header">{{ momentTimestamp(post.dateCreated) }}</div>
+    <div class="card-body">
+      <h5 class="card-title">{{ post.title }}</h5>
+      <p class="card-text">
+        {{ post.body }}
+      </p>
+      <a href="#" class="btn btn-primary">Comment</a>
+    </div>
+  </div>
+</div>
