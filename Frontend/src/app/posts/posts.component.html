@@ -1,7 +1,74 @@
-<h1>Posts</h1>
+<div class="d-flex justify-content-between">
+  <h1>Posts</h1>
+  <button
+    type="button"
+    class="btn btn-lg btn-outline-success"
+    (click)="open(content)"
+  >
+    Create Post
+  </button>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Post</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="submitHandler()">
+      <div class="mb-3">
+        <div>
+          <select
+            title="authorId"
+            name="authorId"
+            id="authorId"
+            formControlName="authorId"
+          >
+            <option value="" disabled></option>
+            <option value="{{ user.id }}" *ngFor="let user of users">
+              {{ user.displayName }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label for="title">Title</label>
+          <br />
+          <input type="text" name="title" id="title" formControlName="title" />
+        </div>
+        <div>
+          <label for="body">Body</label>
+          <br />
+          <textarea name="body" id="body" formControlName="body"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          class="btn btn-outline-success"
+          (click)="modal.close('Save click')"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<hr />
+
+<pre>{{ closeResult }}</pre>
+
 <div>
-  <div class="card" *ngFor="let post of posts">
-    <div class="card-header">{{ momentTimestamp(post.dateCreated) }}</div>
+  <div class="card mb-4" *ngFor="let post of posts.reverse()">
+    <div class="card-header">
+      <p>{{ getAuthor(post) }}</p>
+      <p>{{ momentTimestamp(post.dateCreated) }}</p>
+    </div>
     <div class="card-body">
       <h5 class="card-title">{{ post.title }}</h5>
       <p class="card-text">
