@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -8,17 +8,22 @@ import { HttpResponse } from '@angular/common/http';
 export class AuthenticationService {
   fakeEmail: string = 'fakeemail@gmail.com';
   fakePassword: string = 'fakepassword';
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
     // mock a successful call to api server
     if (email == this.fakeEmail && password == this.fakePassword) {
-      localStorage.setItem(
-        'kindSocialAuthToken',
-        'my-super-secret-token-from-server'
-      );
+      // localStorage.setItem(
+      //   'kindSocialAuthToken',
+      //   'my-super-secret-token-from-server'
+      // );
+
+      // send get request for user in db with email and password that matches
+      // if matches, create global user state
+      console.warn('logged in');
       return of(new HttpResponse({ status: 200 }));
     } else {
+      console.warn('wrong credentials');
       return of(new HttpResponse({ status: 401 }));
     }
   }
