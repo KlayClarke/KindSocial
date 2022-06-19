@@ -19,6 +19,7 @@ export class PostsComponent implements OnInit {
   posts!: Post[];
   users!: User[];
   closeResult = '';
+  loading: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -34,15 +35,31 @@ export class PostsComponent implements OnInit {
       authorId: '',
     });
     this.form.valueChanges.subscribe(console.log);
-    // to get users from mongodb and populate 'users' array
-    this.http.get(environment.apiEndpoint + '/Users').subscribe((response) => {
-      this.users = response as User[];
-      console.log(response);
-    });
-    // to get posts from mongodb and populate 'posts' array
-    this.http.get(environment.apiEndpoint + '/Posts').subscribe((response) => {
-      this.posts = response as Post[];
-    });
+    this.populateState();
+  }
+
+  async populateState() {
+    this.loading = true;
+    try {
+      // to get users from mongodb and populate 'users' array
+      this.http
+        .get(environment.apiEndpoint + '/Users')
+        .subscribe((response) => {
+          this.users = response as User[];
+          console.log(response);
+        });
+      // to get posts from mongodb and populate 'posts' array
+      this.http
+        .get(environment.apiEndpoint + '/Posts')
+        .subscribe((response) => {
+          this.posts = response as Post[];
+        });
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+    } catch (error) {
+      console.warn(error);
+    }
   }
 
   // helper method to format posts dateCreated param
