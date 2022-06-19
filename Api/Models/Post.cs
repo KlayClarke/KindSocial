@@ -10,7 +10,7 @@ public class Post
   public string? Id { get; set; }
   public string Title { get; set; } = null!;
   public string Body { get; set; } = null!;
-  public DateTime DateCreated { get; set; } 
+  public string DateCreated { get; set; } = null!;
 
   [BsonRepresentation(BsonType.ObjectId)]
   public string AuthorId { get; set; } = null!;
